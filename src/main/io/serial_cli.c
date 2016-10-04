@@ -1621,7 +1621,7 @@ static void cliServoMix(char *cmdline)
                 masterConfig.customServoMixer[i].speed,
                 masterConfig.customServoMixer[i].min,
                 masterConfig.customServoMixer[i].max,
-                masterConfig.customServoMixer[i].box
+                0
             );
         }
         cliPrintf("\r\n");
@@ -1720,7 +1720,6 @@ static void cliServoMix(char *cmdline)
             masterConfig.customServoMixer[i].speed = args[SPEED];
             masterConfig.customServoMixer[i].min = args[MIN];
             masterConfig.customServoMixer[i].max = args[MAX];
-            masterConfig.customServoMixer[i].box = args[BOX];
             cliServoMix("");
         } else {
             cliShowParseError();
@@ -1991,7 +1990,7 @@ static void cliDump(char *cmdline)
                 masterConfig.customServoMixer[i].speed,
                 masterConfig.customServoMixer[i].min,
                 masterConfig.customServoMixer[i].max,
-                masterConfig.customServoMixer[i].box
+                0
             );
         }
 #endif // USE_SERVOS

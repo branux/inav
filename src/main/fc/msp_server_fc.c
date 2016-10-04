@@ -132,9 +132,6 @@ static const box_t boxes[CHECKBOX_ITEM_COUNT + 1] = {
     { BOXOSD, "OSD SW;", 19 },
     { BOXTELEMETRY, "TELEMETRY;", 20 },
     //{ BOXGTUNE, "GTUNE;", 21 },
-    { BOXSERVO1, "SERVO1;", 23 },
-    { BOXSERVO2, "SERVO2;", 24 },
-    { BOXSERVO3, "SERVO3;", 25 },
     { BOXBLACKBOX, "BLACKBOX;", 26 },
     { BOXFAILSAFE, "FAILSAFE;", 27 },
     { BOXNAVWP, "NAV WP;", 28 },
@@ -317,14 +314,6 @@ static void initActiveBoxIds(void)
 #ifdef TELEMETRY
     if (feature(FEATURE_TELEMETRY) && masterConfig.telemetryConfig.telemetry_switch)
         activeBoxIds[activeBoxIdCount++] = BOXTELEMETRY;
-#endif
-
-#ifdef USE_SERVOS
-    if (masterConfig.mixerMode == MIXER_CUSTOM_AIRPLANE) {
-        activeBoxIds[activeBoxIdCount++] = BOXSERVO1;
-        activeBoxIds[activeBoxIdCount++] = BOXSERVO2;
-        activeBoxIds[activeBoxIdCount++] = BOXSERVO3;
-    }
 #endif
 
 #ifdef BLACKBOX
@@ -602,7 +591,7 @@ static bool processOutCommand(uint8_t cmdMSP, sbuf_t *dst, sbuf_t *src)
             sbufWriteU8(dst, masterConfig.customServoMixer[i].speed);
             sbufWriteU8(dst, masterConfig.customServoMixer[i].min);
             sbufWriteU8(dst, masterConfig.customServoMixer[i].max);
-            sbufWriteU8(dst, masterConfig.customServoMixer[i].box);
+            sbufWriteU8(dst, 0);
         }
         break;
 #endif
@@ -1272,7 +1261,7 @@ static mspResult_e processInCommand(uint8_t cmdMSP, sbuf_t *src)
             masterConfig.customServoMixer[i].speed = sbufReadU8(src);
             masterConfig.customServoMixer[i].min = sbufReadU8(src);
             masterConfig.customServoMixer[i].max = sbufReadU8(src);
-            masterConfig.customServoMixer[i].box = sbufReadU8(src);
+            sbufReadU8(src); //Read 1 byte for `box` and ignore it
             loadCustomServoMixer();
         }
 #endif
