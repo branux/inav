@@ -127,7 +127,6 @@ static const box_t boxes[CHECKBOX_ITEM_COUNT + 1] = {
     { BOXLEDMAX, "LEDMAX;", 14 },
     { BOXLEDLOW, "LEDLOW;", 15 },
     { BOXLLIGHTS, "LLIGHTS;", 16 },
-    { BOXGOV, "GOVERNOR;", 18 },
     { BOXOSD, "OSD SW;", 19 },
     { BOXTELEMETRY, "TELEMETRY;", 20 },
     //{ BOXGTUNE, "GTUNE;", 21 },
@@ -144,6 +143,7 @@ static const box_t boxes[CHECKBOX_ITEM_COUNT + 1] = {
     { BOXSURFACE, "SURFACE;", 33 },
     { BOXFLAPERON, "FLAPERON;", 34 },
     { BOXTURNASSIST, "TURN ASSIST;", 35 },
+    { BOXNAVLAUNCH, "NAV LAUNCH;", 36 },
     { CHECKBOX_ITEM_COUNT, NULL, 0xFF }
 };
 
@@ -293,6 +293,7 @@ static void initActiveBoxIds(void)
 
     if (isFixedWing) {
         activeBoxIds[activeBoxIdCount++] = BOXPASSTHRU;
+        activeBoxIds[activeBoxIdCount++] = BOXNAVLAUNCH;
     }
 
     /*
@@ -356,7 +357,6 @@ static uint32_t packFlightModeFlags(void)
         IS_ENABLED(IS_RC_MODE_ACTIVE(BOXLEDMAX)) << BOXLEDMAX |
         IS_ENABLED(IS_RC_MODE_ACTIVE(BOXLEDLOW)) << BOXLEDLOW |
         IS_ENABLED(IS_RC_MODE_ACTIVE(BOXLLIGHTS)) << BOXLLIGHTS |
-        IS_ENABLED(IS_RC_MODE_ACTIVE(BOXGOV)) << BOXGOV |
         IS_ENABLED(IS_RC_MODE_ACTIVE(BOXOSD)) << BOXOSD |
         IS_ENABLED(IS_RC_MODE_ACTIVE(BOXTELEMETRY)) << BOXTELEMETRY |
         IS_ENABLED(ARMING_FLAG(ARMED)) << BOXARM |
@@ -372,6 +372,7 @@ static uint32_t packFlightModeFlags(void)
         IS_ENABLED(IS_RC_MODE_ACTIVE(BOXSURFACE)) << BOXSURFACE |
         IS_ENABLED(FLIGHT_MODE(FLAPERON)) << BOXFLAPERON |
         IS_ENABLED(FLIGHT_MODE(TURN_ASSISTANT)) << BOXTURNASSIST |
+        IS_ENABLED(FLIGHT_MODE(LAUNCH_MODE)) << BOXNAVLAUNCH |
         IS_ENABLED(IS_RC_MODE_ACTIVE(BOXHOMERESET)) << BOXHOMERESET;
 
     uint32_t ret = 0;
